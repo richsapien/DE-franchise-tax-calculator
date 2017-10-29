@@ -10,6 +10,11 @@
         
         var deFranchiseTaxCalculator = function(authorizedShares, issuedShares, grossAssets){
             
+            var authorizedShares = prompt("How many authorized shares?");
+            var issuedShares = prompt("How many issued shares?");
+            var grossAssets = prompt("What are the total gross assets?");
+            
+            
             var minimum = function(x, y){ // use the if true otherwise || trick
                 if (x > y)
                         return y;
@@ -65,18 +70,39 @@
                 return franchiseTax;
             }
             
-            // console.log(authorizedSharesMethod(authorizedShares)); // testing
-            // console.log(assumedParValueMethod(issuedShares, grossAssets, authorizedShares)); // testing
+            console.log(authorizedSharesMethod(authorizedShares)); // testing
+            console.log(assumedParValueMethod(issuedShares, grossAssets, authorizedShares)); // testing
             
             return minimum(authorizedSharesMethod(authorizedShares), assumedParValueMethod(issuedShares, grossAssets, authorizedShares));
                
         }
         
-        console.log(deFranchiseTaxCalculator(20000000, 15000000, 150000000));
-        
+        // console.log(deFranchiseTaxCalculator(20000000, 15000000, 150000000));
         
     </script>
-
+    
+    <button onclick="deFranchiseTaxCalculator()">Calculate</button>
+    
+    <h1>Delaware Franchise Tax Calculator</h1> <!-- this does nothing yet; need to hardwire the JavaScript so it knows how to interact-->
+    
+    <form>
+        <table>
+            <tr>
+                <td>Issued Shares</td><td><input id="issuedSharesInput" type="number"></td>
+            </tr>
+            <tr>
+                <td>Gross Assets</td><td><input id="grossAssetsInput" type="number"></td>
+            </tr>
+            <tr>
+                <td>Authorized Shares</td><td><input id="authorizedSharesInput" type="number"></td>
+            </tr>
+        </table>
+        
+        <input type="submit" value="Calculate">
+        
+    </form>
+    
+    <p>Your Delaware franchise tax is $<div id="output"></div></p>
 
 </body>
 
