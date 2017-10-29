@@ -1,0 +1,85 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        
+        var deFranchiseTaxCalculator = function(authorizedShares, issuedShares, grossAssets){
+            
+            var minimum = function(x, y){ // use the if true otherwise || trick
+                if (x > y)
+                        return y;
+                else return x; 
+            }
+            
+            var authorizedSharesMethod = function(authorizedShares) {
+
+                var franchiseTax = 0;
+
+                if (authorizedShares <= 5000)
+                    franchiseTax = 175;
+                else if (authorizedShares >= 5001 && authorizedShares <= 10000)
+                    franchiseTax = 250;
+                else if (authorizedShares >= 23970001)
+                    franchiseTax = 180000
+                else if (authorizedShares > 10000) {
+                    franchiseTax = 250;
+
+                    var counter = 0;
+
+                    var incremental = function(authorizedShares) {
+                        if (authorizedShares > 10000) {
+                            counter += 1;
+                            authorizedShares = authorizedShares - 10000;
+                            incremental(authorizedShares);
+                        }
+                    }
+                    incremental(authorizedShares);
+                    franchiseTax += (counter * 75);
+                    return franchiseTax;
+                }
+            }
+
+            var assumedParValueMethod = function(issuedShares, grossAssets, authorizedShares){
+
+                var franchiseTax = 0;
+
+                var assumedParValue = grossAssets / issuedShares; // eventually round to 6 decimal places
+                var apvCapital = assumedParValue * authorizedShares;
+
+                var counter = 0;
+                var incremental = function(apvCapital){
+                    if (apvCapital > 0){
+                        counter += 1;
+                        apvCapital = apvCapital - 1000000;
+                        incremental(apvCapital);
+                    }
+                }
+                incremental(apvCapital);
+
+                franchiseTax += (counter * 350)
+                return franchiseTax;
+            }
+            
+            // console.log(authorizedSharesMethod(authorizedShares)); // testing
+            // console.log(assumedParValueMethod(issuedShares, grossAssets, authorizedShares)); // testing
+            
+            return minimum(authorizedSharesMethod(authorizedShares), assumedParValueMethod(issuedShares, grossAssets, authorizedShares));
+               
+        }
+        
+        console.log(deFranchiseTaxCalculator(20000000, 15000000, 150000000));
+        
+        
+    </script>
+
+
+</body>
+
+</html>
+
+              
